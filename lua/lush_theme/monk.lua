@@ -22,9 +22,33 @@ local pa = { -- my colors
     black = hsl(0,0,0),
     white = hsl(0,0,100),
 
-    rice = hsl(49,35,90),
+    rice = hsl(33,52,96),
+    pearl = hsl(42,45,85),
+
+    grey = hsl(0,0,50),
+    charcoal_grey = hsl(190,5,25),
+    dol = hsl(0,2,35),
+    bokara = hsl(24,6,15),
+
+    black_pearl = hsl(201,19,15),
+
+    navy = hsl(220,97,12),
+    blue_da = hsl(211,60,13),
+    deep_azure = hsl(210,100,17),
+
+    green = hsl(98,68,53),
+
+
+    orange = hsl(33,100,50),
+
+    red = hsl(357,90,55),
+    mit_red = hsl(350,68,38),
+
+    yellow = hsl(50,100,60),
+
 }
-    local jbs = { -- jellybeans palette
+
+    local jbn = { -- jellybeans palette
     color_column = hsl("#0d1b2a"),
     foreground = hsl("#e8e8d3"),
     background = hsl("#151515"),
@@ -77,6 +101,11 @@ local pa = { -- my colors
     calypso = hsl("#2B5B77"),
 }
 
+local base = {
+    background = pa.black,
+    foreground = jbn.foreground,
+}
+
 local theme = lush(function(injected_functions)
     local sym = injected_functions.sym
     return {
@@ -89,74 +118,98 @@ local theme = lush(function(injected_functions)
         -- to reorder items as you go.
         --
         -- See :h highlight-groups
-        --
-        -- ColorColumn    { }, -- Columns set with 'colorcolumn'
-        -- Conceal        { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
-        -- Cursor         { }, -- Character under the cursor
-        -- CurSearch      { }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
+
+        -- Normal         { bg = pa.black_pearl, fg = pa.rice }, -- Normal text
+        Normal         { bg = base.background, fg = pa.rice }, -- Normal text
+        -- NonText        { }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+        Comment        { fg = pa.grey }, -- Any comment
+        Visual         { bg = jbn.tundora }, -- Visual mode selection
+        -- VisualNOS      { }, -- Visual mode selection when vim is "Not Owning the Selection".
+
+        ColorColumn    { bg = pa.black_pearl }, -- Columns set with 'colorcolumn'
+
+        Conceal        { fg = pa.yellow }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
+        EndOfBuffer    { fg = jbn.gravel }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
+        VertSplit      { fg = jbn.gravel }, -- Column separating vertically split windows
+        Winseparator   { fg = jbn.gravel }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
+        MatchParen     { bg = pa.grey }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+        -- SignColumn     { bg = base.background }, -- Column where |signs| are displayed
+        SignColumn     { }, -- Column where |signs| are displayed
+
+        Cursor         { bg = base.background, fg = jbn.perano }, -- Character under the cursor
         -- lCursor        { }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
         -- CursorIM       { }, -- Like Cursor, but used when in IME mode |CursorIM|
-        -- CursorColumn   { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-        -- CursorLine     { }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
-        -- Directory      { }, -- Directory names (and other special names in listings)
-        -- DiffAdd        { }, -- Diff mode: Added line |diff.txt|
-        -- DiffChange     { }, -- Diff mode: Changed line |diff.txt|
-        -- DiffDelete     { }, -- Diff mode: Deleted line |diff.txt|
-        -- DiffText       { }, -- Diff mode: Changed text within a changed line |diff.txt|
-        -- EndOfBuffer    { }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
         -- TermCursor     { }, -- Cursor in a focused terminal
         -- TermCursorNC   { }, -- Cursor in an unfocused terminal
-        -- ErrorMsg       { }, -- Error messages on the command line
-        -- VertSplit      { }, -- Column separating vertically split windows
-        -- Folded         { }, -- Line used for closed folds
-        -- FoldColumn     { }, -- 'foldcolumn'
-        -- SignColumn     { }, -- Column where |signs| are displayed
-        -- IncSearch      { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
-        -- Substitute     { }, -- |:substitute| replacement text highlighting
-        -- LineNr         { }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+        CursorColumn   { ColorColumn }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
+        CursorLine     { ColorColumn }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
+
+        LineNr         { fg = pa.grey.da(10) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
         -- LineNrAbove    { }, -- Line number for when the 'relativenumber' option is set, above the cursor line
         -- LineNrBelow    { }, -- Line number for when the 'relativenumber' option is set, below the cursor line
-        -- CursorLineNr   { }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+        CursorLineNr   { fg = pa.pearl }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+
+        Folded         { bg = pa.black_pearl, fg = jbn.grey.li(20) }, -- Line used for closed folds
+        -- FoldColumn     { bg = base.background, fg =  jbn.morning_glory }, -- 'foldcolumn'
+        FoldColumn     { fg =  jbn.morning_glory }, -- 'foldcolumn'
+
         -- CursorLineFold { }, -- Like FoldColumn when 'cursorline' is set for the cursor line
         -- CursorLineSign { }, -- Like SignColumn when 'cursorline' is set for the cursor line
-        -- MatchParen     { }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-        -- ModeMsg        { }, -- 'showmode' message (e.g., "-- INSERT -- ")
-        -- MsgArea        { }, -- Area for messages and cmdline
+
+        Search         { bg = pa.navy.li(12), fg = pa.rice }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
+        CurSearch      { bg = pa.orange, fg = pa.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
+        IncSearch      { Search }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+        -- Substitute     { bg = jbn.cocoa_brown, fg = jbn.wewak, gui = "bold" }, -- |:substitute| replacement text highlighting
+
+        Directory      { fg = jbn.morning_glory, gui = "bold" }, -- Directory names (and other special names in listings)
+
+
+        DiffAdd        { fg = pa.green }, -- Diff mode: Added line |diff.txt|
+        DiffChange     { fg = pa.orange }, -- Diff mode: Changed line |diff.txt|
+        DiffDelete     { fg = pa.red }, -- Diff mode: Deleted line |diff.txt|
+        DiffText       { bg = pa.deep_azure.li(2) }, -- Diff mode: Changed text within a changed line |diff.txt|
+
+        ErrorMsg       { bg = pa.mit_red }, -- Error messages on the command line
+
+
+        ModeMsg        { fg = pa.rice }, -- 'showmode' message (e.g., "-- INSERT -- ")
+        MsgArea        { fg = pa.rice }, -- Area for messages and cmdline
         -- MsgSeparator   { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
-        -- MoreMsg        { }, -- |more-prompt|
-        -- NonText        { }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-        -- Normal         { }, -- Normal text
+        MoreMsg        { fg = jbn.highland }, -- |more-prompt|
+
+
         -- NormalFloat    { }, -- Normal text in floating windows.
         -- FloatBorder    { }, -- Border of floating windows.
         -- FloatTitle     { }, -- Title of floating windows.
         -- NormalNC       { }, -- normal text in non-current windows
-        -- Pmenu          { }, -- Popup menu: Normal item.
-        -- PmenuSel       { }, -- Popup menu: Selected item.
+
+        Pmenu          { bg = pa.charcoal_grey, fg = pa.rice }, -- Popup menu: Normal item.
+        PmenuSel       { bg = pa.navy }, -- Popup menu: Selected item.
         -- PmenuKind      { }, -- Popup menu: Normal item "kind"
         -- PmenuKindSel   { }, -- Popup menu: Selected item "kind"
         -- PmenuExtra     { }, -- Popup menu: Normal item "extra text"
         -- PmenuExtraSel  { }, -- Popup menu: Selected item "extra text"
-        -- PmenuSbar      { }, -- Popup menu: Scrollbar.
+        PmenuSbar      { bg = pa.charcoal_grey.da(50) }, -- Popup menu: Scrollbar.
         -- PmenuThumb     { }, -- Popup menu: Thumb of the scrollbar.
+
         -- Question       { }, -- |hit-enter| prompt and yes/no questions
         -- QuickFixLine   { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
-        -- Search         { }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
         -- SpecialKey     { }, -- Unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. |hl-Whitespace|
         -- SpellBad       { }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
         -- SpellCap       { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
         -- SpellLocal     { }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
         -- SpellRare      { }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
+
         -- StatusLine     { }, -- Status line of current window
         -- StatusLineNC   { }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+
         -- TabLine        { }, -- Tab pages line, not active tab page label
         -- TabLineFill    { }, -- Tab pages line, where there are no labels
         -- TabLineSel     { }, -- Tab pages line, active tab page label
+
         -- Title          { }, -- Titles for output from ":set all", ":autocmd" etc.
-        -- Visual         { }, -- Visual mode selection
-        -- VisualNOS      { }, -- Visual mode selection when vim is "Not Owning the Selection".
         -- WarningMsg     { }, -- Warning messages
         -- Whitespace     { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
-        -- Winseparator   { }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
         -- WildMenu       { }, -- Current match in 'wildmenu' completion
         -- WinBar         { }, -- Window bar of current window
         -- WinBarNC       { }, -- Window bar of not-current windows
@@ -169,7 +222,6 @@ local theme = lush(function(injected_functions)
         --
         -- Uncomment and edit if you want more specific syntax highlighting.
 
-        -- Comment        { }, -- Any comment
 
         -- Constant       { }, -- (*) Any constant
         -- String         { }, --   A string constant: "this is a string"
