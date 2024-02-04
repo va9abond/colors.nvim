@@ -27,14 +27,13 @@ local pa = { -- my colors
 
     grey = hsl(0,0,50),
     charcoal_grey = hsl(190,5,25),
-    dol = hsl(0,2,35),
-    bokara = hsl(24,6,15),
 
     black_pearl = hsl(201,19,15),
 
     navy = hsl(220,97,12),
     blue_da = hsl(211,60,13),
     deep_azure = hsl(210,100,17),
+    blue_grey_da = hsl(203,43,21),
 
     green = hsl(98,68,53),
 
@@ -88,7 +87,7 @@ local pa = { -- my colors
     biloba_flower = hsl("#c6b6ee"),
     morning_glory = hsl("#8fbfdc"),
     goldenrod = hsl("#fad07a"),
-    ship_cove = hsl("#8197bf"),
+    ship_cove = hsl(222,23,57),
     koromiko = hsl("#ffb964"),
     brandy = hsl("#dad085"),
     old_brick = hsl("#902020"),
@@ -132,8 +131,7 @@ local theme = lush(function(injected_functions)
         EndOfBuffer    { fg = jbn.gravel }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
         VertSplit      { fg = jbn.gravel }, -- Column separating vertically split windows
         Winseparator   { fg = jbn.gravel }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
-        MatchParen     { bg = pa.grey }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-        -- SignColumn     { bg = base.background }, -- Column where |signs| are displayed
+        MatchParen     { bg = jbn.cocoa_brown, fg = jbn.wewak }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
         SignColumn     { }, -- Column where |signs| are displayed
 
         Cursor         { bg = base.background, fg = jbn.perano }, -- Character under the cursor
@@ -156,10 +154,20 @@ local theme = lush(function(injected_functions)
         -- CursorLineFold { }, -- Like FoldColumn when 'cursorline' is set for the cursor line
         -- CursorLineSign { }, -- Like SignColumn when 'cursorline' is set for the cursor line
 
-        Search         { bg = pa.navy.li(12), fg = pa.rice }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
-        CurSearch      { bg = pa.orange, fg = pa.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
+
+        -- Var. 1
+        -- Search         { bg = pa.navy.li(12), fg = pa.rice }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
+        -- CurSearch      { bg = pa.orange, fg = pa.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
+        -- IncSearch      { Search }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+
+        -- Var. 2
+        Search         { bg = pa.rice, fg = pa.black }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
+        CurSearch      { bg = pa.navy.li(12), fg = pa.rice }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
         IncSearch      { Search }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+
+        Substitute     { bg = pa.navy.li(12), fg = pa.rice, gui = "bold" }, -- |:substitute| replacement text highlighting
         -- Substitute     { bg = jbn.cocoa_brown, fg = jbn.wewak, gui = "bold" }, -- |:substitute| replacement text highlighting
+
 
         Directory      { fg = jbn.morning_glory, gui = "bold" }, -- Directory names (and other special names in listings)
 
@@ -167,9 +175,9 @@ local theme = lush(function(injected_functions)
         DiffAdd        { fg = pa.green }, -- Diff mode: Added line |diff.txt|
         DiffChange     { fg = pa.orange }, -- Diff mode: Changed line |diff.txt|
         DiffDelete     { fg = pa.red }, -- Diff mode: Deleted line |diff.txt|
-        DiffText       { bg = pa.deep_azure.li(2) }, -- Diff mode: Changed text within a changed line |diff.txt|
+        DiffText       { bg = pa.deep_azure.li(2), fg = pa.rice }, -- Diff mode: Changed text within a changed line |diff.txt|
 
-        ErrorMsg       { bg = pa.mit_red }, -- Error messages on the command line
+        ErrorMsg       { bg = pa.mit_red, fg = pa.rice }, -- Error messages on the command line
 
 
         ModeMsg        { fg = pa.rice }, -- 'showmode' message (e.g., "-- INSERT -- ")
@@ -183,14 +191,14 @@ local theme = lush(function(injected_functions)
         -- FloatTitle     { }, -- Title of floating windows.
         -- NormalNC       { }, -- normal text in non-current windows
 
-        Pmenu          { bg = pa.charcoal_grey, fg = pa.rice }, -- Popup menu: Normal item.
-        PmenuSel       { bg = pa.navy }, -- Popup menu: Selected item.
+        Pmenu          { bg = base.background.li(12), fg = pa.rice }, -- Popup menu: Normal item.
+        PmenuSel       { bg = jbn.ship_cove.da(40), fg = pa.rice }, -- Popup menu: Selected item.
         -- PmenuKind      { }, -- Popup menu: Normal item "kind"
-        -- PmenuKindSel   { }, -- Popup menu: Selected item "kind"
+        PmenuKindSel   { fg = pa.yellow }, -- Popup menu: Selected item "kind"
         -- PmenuExtra     { }, -- Popup menu: Normal item "extra text"
-        -- PmenuExtraSel  { }, -- Popup menu: Selected item "extra text"
-        PmenuSbar      { bg = pa.charcoal_grey.da(50) }, -- Popup menu: Scrollbar.
-        -- PmenuThumb     { }, -- Popup menu: Thumb of the scrollbar.
+        PmenuExtraSel  { fg = pa.green }, -- Popup menu: Selected item "extra text"
+        PmenuSbar      { bg = pa.charcoal_grey.da(40), fg = pa.rice }, -- Popup menu: Scrollbar.
+        PmenuThumb     { bg = pa.charcoal_grey.li(5) }, -- Popup menu: Thumb of the scrollbar.
 
         -- Question       { }, -- |hit-enter| prompt and yes/no questions
         -- QuickFixLine   { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
@@ -367,6 +375,20 @@ local theme = lush(function(injected_functions)
         -- sym"@preproc"           { }, -- PreProc
         -- sym"@debug"             { }, -- Debug
         -- sym"@tag"               { }, -- Tag
+
+
+
+        -- Telescope
+        TelescopeBorder { fg = jbn.ship_cove },
+        TelescopeSelection { fg = jbn.ship_cove.lighten(46), bg = jbn.ship_cove.darken(74) },
+        TelescopeMatching { Search },
+        TelescopeSelectionCaret { fg = jbn.koromiko },
+        TelescopePromptPrefix { fg = jbn.koromiko },
+
+        -- GitSigns
+        GitSignsAdd { DiffAdd },
+        GitSignsChange { DiffChange },
+        GitSignsDelete { DiffDelete },
     }
 end)
 
