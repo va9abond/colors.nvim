@@ -30,22 +30,32 @@ local pa = { -- my colors
 
     black_pearl = hsl(201,19,15),
 
+    sky = hsl(205,95,75),
     navy = hsl(220,97,12),
-    blue_da = hsl(211,60,13),
+    -- blue_da = hsl(211,60,13),
     deep_azure = hsl(210,100,17),
-    blue_grey_da = hsl(203,43,21),
-
-    green = hsl(98,68,53),
+    niagara = hsl(221,31,69),
+    blue_moon = hsl(202,25,56),
 
 
     orange = hsl(33,100,50),
+    orangey_red = hsl(8,96,56),
 
     red = hsl(357,90,55),
     mit_red = hsl(350,68,38),
+    blood = hsl(0,96,28),
+    dired_blood = hsl(0,97,15),
 
     yellow = hsl(50,100,60),
 
+    green = hsl(98,68,53),
+    lichen = hsl(100,29,60),
+
     hot_magenta = hsl(313,100,56),
+
+    quartz = hsl(150,10,62),
+    wisteria = hsl(251,31,68),
+
 
 }
 
@@ -121,9 +131,9 @@ local theme = lush(function(injected_functions)
 
         Normal         { bg = base.background, fg = pa.rice }, -- Normal text
         NormalNC       { fg = pa.rice }, -- normal text in non-current windows
-        -- NonText        { }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
         Comment        { fg = pa.grey }, -- Any comment
-        Whitespace     { fg = pa.grey }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+        NonText        { Comment }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+        Whitespace     { Comment }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
         Visual         { bg = jbn.tundora }, -- Visual mode selection
         -- Visual         { bg = pa.navy.li(10) }, -- Visual mode selection
         -- VisualNOS      { }, -- Visual mode selection when vim is "Not Owning the Selection".
@@ -261,46 +271,47 @@ local theme = lush(function(injected_functions)
         --
         -- Uncomment and edit if you want more specific syntax highlighting.
 
-        -- Constant       { }, -- (*) Any constant
-        -- String         { }, --   A string constant: "this is a string"
-        -- Character      { }, --   A character constant: 'c', '\n'
-        -- Number         { }, --   A number constant: 234, 0xff
-        -- Boolean        { }, --   A boolean constant: TRUE, false
-        -- Float          { }, --   A floating point constant: 2.3e10
+        Constant       { fg = pa.orangey_red }, -- (*) Any constant
+        String         { fg = pa.green }, --   A string constant: "this is a string"
+        Character      { fg = jbn.tea_green }, --   A character constant: 'c', '\n'
+        Number         { fg = jbn.perano }, --   A number constant: 234, 0xff
+        Boolean        { fg = pa.blue_moon, gui = "bold" }, --   A boolean constant: TRUE, false
+        Float          { Number }, --   A floating point constant: 2.3e10
 
-        -- Identifier     { }, -- (*) Any variable name
-        -- Function       { }, --   Function name (also: methods for classes)
+        Identifier     { Normal }, -- (*) Any variable name
+        Function       { fg = pa.orange }, --   Function name (also: methods for classes)
 
-        -- Statement      { }, -- (*) Any statement
-        -- Conditional    { }, --   if, then, else, endif, switch, etc.
-        -- Repeat         { }, --   for, do, while, etc.
-        -- Label          { }, --   case, default, etc.
-        -- Operator       { }, --   "sizeof", "+", "*", etc.
-        -- Keyword        { }, --   any other keyword
-        -- Exception      { }, --   try, catch, throw
+        Statement      { fg = pa.niagara, gui = "bold" }, -- (*) Any statement
+        Conditional    { fg = pa.yellow, gui = "bold" }, --   if, then, else, endif, switch, etc.
+        Repeat         { fg = pa.yellow, gui = "bold" }, --   for, do, while, etc.
+        Label          { fg = pa.yellow, gui = "bold" }, --   case, default, etc.
+        Operator       { Statement }, --   "sizeof", "+", "*", etc.
+        Keyword        { fg = pa.yellow, gui = "bold" }, --   any other keyword
+        Exception      { fg = pa.yellow, gui = "bold" }, --   try, catch, throw
 
-        -- PreProc        { }, -- (*) Generic Preprocessor
+        PreProc        { fg = jbn.ship_cove }, -- (*) Generic Preprocessor
         -- Include        { }, --   Preprocessor #include
-        -- Define         { }, --   Preprocessor #define
-        -- Macro          { }, --   Same as Define
-        -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
+        Define         { fg = jbn.ship_cove, gui = "bold" }, --   Preprocessor #define
+        Macro          { Define }, --   Same as Define
+        PreCondit      { Define }, --   Preprocessor #if, #else, #endif, etc.
 
-        -- Type           { }, -- (*) int, long, char, etc.
-        -- StorageClass   { }, --   static, register, volatile, etc.
-        -- Structure      { }, --   struct, union, enum, etc.
+        Type           { fg = pa.quartz }, -- (*) int, long, char, etc.
+        StorageClass   { fg = pa.orangey_red }, --   static, register, volatile, etc.
+        Structure      { StorageClass }, --   struct, union, enum, etc.
         -- Typedef        { }, --   A typedef
 
-        -- Special        { }, -- (*) Any special symbol
+        Special        { fg = jbn.koromiko }, -- (*) Any special symbol
         -- SpecialChar    { }, --   Special character in a constant
         -- Tag            { }, --   You can use CTRL-] on this
-        -- Delimiter      { }, --   Character that needs attention
+        Delimiter      { bg = jbn.hoki }, --   Character that needs attention
         -- SpecialComment { }, --   Special things inside a comment (e.g. '\n')
         -- Debug          { }, --   Debugging statements
 
         -- Underlined     { gui = "underline" }, -- Text that stands out, HTML links
         -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
-        -- Error          { }, -- Any erroneous construct
-        -- Todo           { }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+
+        Error          { bg = pa.mit_red }, -- Any erroneous construct
+        Todo           { bg = pa.blue_moon, fg = pa.black }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
         -- These groups are for the native LSP client and diagnostic system. Some
         -- other LSP clients may use these groups, or use their own. Consult your
