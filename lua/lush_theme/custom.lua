@@ -13,18 +13,22 @@
 --
 
 
+-- TODO
+-- [ ] lsp
+-- [ ] treesitter
+-- [ ] Diagnostic
+
 
 local lush = require('lush')
 local hsl = lush.hsl
 
 
-local pa = { -- my colors
+local c = { -- my own palette
     black = hsl(0,0,0),
     white = hsl(0,0,100),
 
     rice = hsl(33,52,96),
     pearl = hsl(42,45,85),
-
     grey = hsl(0,0,50),
     charcoal_grey = hsl(190,5,25),
 
@@ -32,9 +36,8 @@ local pa = { -- my colors
 
     sky = hsl(205,95,75),
     navy = hsl(220,97,12),
-    -- blue_da = hsl(211,60,13),
+    blue_da = hsl(211,60,13),
     deep_azure = hsl(210,100,17),
-    niagara = hsl(221,31,69),
     blue_moon = hsl(202,25,56),
 
 
@@ -52,14 +55,10 @@ local pa = { -- my colors
     lichen = hsl(100,29,60),
 
     hot_magenta = hsl(313,100,56),
-
-    quartz = hsl(150,10,62),
-    wisteria = hsl(251,31,68),
-
-
 }
 
-    local jbn = { -- jellybeans palette
+
+local jbn = { -- jellybeans palette
     foreground = hsl("#e8e8d3"),
     background = hsl("#151515"),
     grey = hsl("#888888"),
@@ -82,7 +81,6 @@ local pa = { -- my colors
     shuttle_grey = hsl("#535d66"),
     mine_shaft = hsl("#1f1f1f"),
     temptress = hsl("#40000a"),
-
     bayoux_blue = hsl("#556779"),
     total_white = hsl("#ffffff"),
     total_black = hsl("#000000"),
@@ -111,10 +109,39 @@ local pa = { -- my colors
     calypso = hsl("#2B5B77"),
 }
 
+
+local grb = { -- gruber-darker palette
+    fg = hsl("#e4e4e4"),
+    ["fg+1"] = hsl("#f4f4ff"),
+    ["fg+2"] = hsl("#f5f5f5"),
+    white = hsl("#ffffff"),
+    black = hsl("#000000"),
+    ["bg-1"] = hsl("#101010"),
+    bg = hsl("#000000"),
+    ["bg+1"] = hsl("#282828"),
+    ["bg+2"] = hsl("#453d41"),
+    ["bg+3"] = hsl("#484848"),
+    ["bg+4"] = hsl("#52494e"),
+    ["red-1"] = hsl("#c73c3f"),
+    red = hsl("#f43841"),
+    ["red+1"] = hsl("#ff4f58"),
+    green = hsl("#73d936"),
+    yellow = hsl("#ffdd33"),
+    brown = hsl("#cc8c3c"),
+    quartz = hsl("#95a99f"),
+    ["niagara-2"] = hsl("#303540"),
+    ["niagara-1"] = hsl("#565f73"),
+    niagara = hsl("#96a6c8"),
+    wisteria = hsl("#9e95c7"),
+    orange = hsl("#b57247"),
+}
+
+
 local base = {
-    background = pa.black,
+    background = c.black,
     foreground = jbn.foreground,
 }
+
 
 local theme = lush(function(injected_functions)
     local sym = injected_functions.sym
@@ -129,28 +156,28 @@ local theme = lush(function(injected_functions)
         --
         -- See :h highlight-groups
 
-        Normal         { bg = base.background, fg = pa.rice }, -- Normal text
-        NormalNC       { fg = pa.rice }, -- normal text in non-current windows
-        Comment        { fg = pa.grey }, -- Any comment
+        Normal         { bg = base.background, fg = c.rice }, -- Normal text
+        NormalNC       { fg = c.rice }, -- normal text in non-current windows
+        Comment        { fg = c.grey }, -- Any comment
         NonText        { Comment }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
         Whitespace     { Comment }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
         Visual         { bg = jbn.tundora }, -- Visual mode selection
-        -- Visual         { bg = pa.navy.li(10) }, -- Visual mode selection
+        -- Visual         { bg = c.navy.li(10) }, -- Visual mode selection
         -- VisualNOS      { }, -- Visual mode selection when vim is "Not Owning the Selection".
 
-        ColorColumn    { bg = pa.black_pearl }, -- Columns set with 'colorcolumn'
+        ColorColumn    { bg = c.black_pearl }, -- Columns set with 'colorcolumn'
 
 
 
-        Directory      { fg = jbn.morning_glory, gui = "bold" }, -- Directory names (and other special names in listings)
-        Conceal        { fg = pa.yellow }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
+        Directory      { fg = c.blue_moon, gui = "bold" }, -- Directory names (and other special names in listings)
+        Conceal        { fg = c.yellow }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
         EndOfBuffer    { fg = jbn.gravel }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
         VertSplit      { fg = jbn.gravel }, -- Column separating vertically split windows
         -- WinBar         { }, -- Window bar of current window
         -- WinBarNC       { }, -- Window bar of not-current windows
         Winseparator   { fg = jbn.gravel }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
         -- MatchParen     { bg = jbn.cocoa_brown, fg = jbn.wewak }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-        MatchParen     { bg = pa.charcoal_grey }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+        MatchParen     { bg = c.charcoal_grey }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
         WildMenu       { bg = jbn.cocoa_brown, fg = jbn.wewak }, -- Current match in 'wildmenu' completion
 
 
@@ -164,14 +191,14 @@ local theme = lush(function(injected_functions)
         CursorColumn   { ColorColumn }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
         CursorLine     { ColorColumn }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
 
-        LineNr         { fg = pa.grey.da(10) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+        LineNr         { fg = c.grey.da(10) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
         -- LineNrAbove    { }, -- Line number for when the 'relativenumber' option is set, above the cursor line
         -- LineNrBelow    { }, -- Line number for when the 'relativenumber' option is set, below the cursor line
-        CursorLineNr   { fg = pa.pearl }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+        CursorLineNr   { fg = c.pearl }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
 
 
 
-        Folded         { bg = pa.black_pearl, fg = jbn.grey.li(20) }, -- Line used for closed folds
+        Folded         { bg = c.black_pearl, fg = jbn.grey.li(20) }, -- Line used for closed folds
 
         -- FoldColumn     { bg = base.background, fg =  jbn.morning_glory }, -- 'foldcolumn'
         FoldColumn     { fg =  jbn.morning_glory }, -- 'foldcolumn'
@@ -183,59 +210,56 @@ local theme = lush(function(injected_functions)
 
 
         -- Var. 1 (orange + navy)
-        Search         { bg = pa.navy.li(12), fg = pa.rice }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
-        CurSearch      { bg = pa.orange, fg = pa.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
-        IncSearch      { Search }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+        Search         { bg = c.orange, fg = c.black }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
+        CurSearch      { bg = c.rice, fg = c.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
+        IncSearch      { bg = c.navy.li(12), fg = c.rice }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
 
-        -- Var. 2 (white + navy)
-        -- Search         { bg = pa.rice, fg = pa.black }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
-        -- CurSearch      { bg = pa.navy.li(12), fg = pa.rice }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
-        -- IncSearch      { Search }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
-
-        Substitute     { bg = pa.navy.li(12), fg = pa.rice, gui = "bold" }, -- |:substitute| replacement text highlighting
-        -- Substitute     { bg = jbn.cocoa_brown, fg = jbn.wewak, gui = "bold" }, -- |:substitute| replacement text highlighting
+        Substitute     { bg = c.navy.li(12), fg = c.rice, gui = "bold" }, -- |:substitute| replacement text highlighting
 
 
 
-        DiffAdd        { fg = pa.green }, -- Diff mode: Added line |diff.txt|
-        DiffChange     { fg = pa.orange }, -- Diff mode: Changed line |diff.txt|
-        DiffDelete     { fg = pa.red }, -- Diff mode: Deleted line |diff.txt|
-        DiffText       { bg = pa.deep_azure.li(2), fg = pa.rice }, -- Diff mode: Changed text within a changed line |diff.txt|
+        DiffAdd        { fg = c.green }, -- Diff mode: Added line |diff.txt|
+        DiffChange     { fg = c.orange }, -- Diff mode: Changed line |diff.txt|
+        DiffDelete     { fg = c.red }, -- Diff mode: Deleted line |diff.txt|
+        DiffText       { bg = c.deep_azure.li(2), fg = c.rice }, -- Diff mode: Changed text within a changed line |diff.txt|
 
-        ErrorMsg       { bg = pa.mit_red, fg = pa.rice }, -- Error messages on the command line
+        diffAdded      { DiffAdd },
+        diffRemoved    { DiffDelete },
+        diffChanged    { DiffChange },
+
+        ErrorMsg       { bg = c.mit_red, fg = c.rice }, -- Error messages on the command line
 
 
 
-        ModeMsg        { fg = pa.pearl }, -- 'showmode' message (e.g., "-- INSERT -- ")
-        MsgArea        { fg = pa.pearl }, -- Area for messages and cmdline
+        ModeMsg        { fg = c.pearl }, -- 'showmode' message (e.g., "-- INSERT -- ")
+        MsgArea        { fg = c.pearl }, -- Area for messages and cmdline
         -- MsgSeparator   { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
         MoreMsg        { fg = jbn.mantis }, -- |more-prompt|
         -- WarningMsg     { }, -- Warning messages
 
 
 
-        Title          { fg = pa.hot_magenta, gui = "bold" }, -- Titles for output from ":set all", ":autocmd" etc.
+        Title          { fg = c.hot_magenta, gui = "bold" }, -- Titles for output from ":set all", ":autocmd" etc.
         -- NormalFloat    { }, -- Normal text in floating windows.
         -- FloatBorder    { }, -- Border of floating windows.
         -- FloatTitle     { }, -- Title of floating windows.
 
 
 
-        Pmenu          { bg = base.background.li(30), fg = pa.rice }, -- Popup menu: Normal item.
-        PmenuSel       { bg = jbn.ship_cove, fg = pa.black }, -- Popup menu: Selected item.
+        Pmenu          { bg = base.background.li(20), fg = c.rice }, -- Popup menu: Normal item.
+        PmenuSel       { bg = grb.quartz, fg = c.black }, -- Popup menu: Selected item.
+        -- ???
+        PmenuKind      { fg = c.red }, -- Popup menu: Normal item "kind"
+        -- ???
+        PmenuKindSel   { fg = c.yellow }, -- Popup menu: Selected item "kind"
 
         -- ???
-        PmenuKind      { fg = pa.red }, -- Popup menu: Normal item "kind"
+        PmenuExtra     { fg = c.pearl }, -- Popup menu: Normal item "extra text"
         -- ???
-        PmenuKindSel   { fg = pa.yellow }, -- Popup menu: Selected item "kind"
+        PmenuExtraSel  { fg = c.green }, -- Popup menu: Selected item "extra text"
 
-        -- ???
-        PmenuExtra     { fg = pa.pearl }, -- Popup menu: Normal item "extra text"
-        -- ???
-        PmenuExtraSel  { fg = pa.green }, -- Popup menu: Selected item "extra text"
-
-        PmenuSbar      { bg = pa.charcoal_grey.da(40), fg = pa.rice }, -- Popup menu: Scrollbar.
-        PmenuThumb     { bg = pa.charcoal_grey.li(5) }, -- Popup menu: Thumb of the scrollbar.
+        PmenuSbar      { bg = c.charcoal_grey.da(40), fg = c.rice }, -- Popup menu: Scrollbar.
+        PmenuThumb     { bg = c.charcoal_grey.li(5) }, -- Popup menu: Thumb of the scrollbar.
 
 
 
@@ -252,13 +276,13 @@ local theme = lush(function(injected_functions)
 
 
 
-        StatusLine     { bg = jbn.grey_one, fg = pa.pearl }, -- Status line of current window
-        StatusLineNC   { bg = base.background, fg = pa.pearl }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+        StatusLine     { bg = jbn.grey_one, fg = c.pearl }, -- Status line of current window
+        StatusLineNC   { bg = base.background, fg = c.pearl }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
 
 
 
-        TabLineSel     { bg = pa.black, fg = jbn.mantis }, -- Tab pages line, active tab page label
-        TabLine        { bg = pa.black, fg = jbn.grey }, -- Tab pages line, not active tab page label
+        TabLineSel     { bg = c.black, fg = jbn.mantis }, -- Tab pages line, active tab page label
+        TabLine        { bg = c.black, fg = jbn.grey }, -- Tab pages line, not active tab page label
         TabLineFill    { fg = jbn.regent_grey }, -- Tab pages line, where there are no labels
 
 
@@ -271,47 +295,49 @@ local theme = lush(function(injected_functions)
         --
         -- Uncomment and edit if you want more specific syntax highlighting.
 
-        Constant       { fg = pa.orangey_red }, -- (*) Any constant
-        String         { fg = pa.green }, --   A string constant: "this is a string"
+        Constant       { fg = grb.quartz }, -- (*) Any constant
+        String         { fg = c.green }, --   A string constant: "this is a string"
         Character      { fg = jbn.tea_green }, --   A character constant: 'c', '\n'
-        Number         { fg = jbn.perano }, --   A number constant: 234, 0xff
-        Boolean        { fg = pa.blue_moon, gui = "bold" }, --   A boolean constant: TRUE, false
+        Number         { fg = jbn.raw_sienna }, --   A number constant: 234, 0xff
+        Boolean        { fg = c.blue_moon, gui = "bold" }, --   A boolean constant: TRUE, false
         Float          { Number }, --   A floating point constant: 2.3e10
 
         Identifier     { Normal }, -- (*) Any variable name
-        Function       { fg = pa.orange }, --   Function name (also: methods for classes)
+        Function       { fg = grb.wisteria }, --   Function name (also: methods for classes)
 
-        Statement      { fg = pa.niagara, gui = "bold" }, -- (*) Any statement
-        Conditional    { fg = pa.yellow, gui = "bold" }, --   if, then, else, endif, switch, etc.
-        Repeat         { fg = pa.yellow, gui = "bold" }, --   for, do, while, etc.
-        Label          { fg = pa.yellow, gui = "bold" }, --   case, default, etc.
+        Statement      { fg = jbn.morning_glory }, -- (*) Any statement
+        Conditional    { fg = c.yellow, gui = "bold" }, --   if, then, else, endif, switch, etc.
+        Repeat         { fg = c.yellow, gui = "bold" }, --   for, do, while, etc.
+        Label          { fg = c.yellow, gui = "bold" }, --   case, default, etc.
         Operator       { Statement }, --   "sizeof", "+", "*", etc.
-        Keyword        { fg = pa.yellow, gui = "bold" }, --   any other keyword
-        Exception      { fg = pa.yellow, gui = "bold" }, --   try, catch, throw
+        Keyword        { fg = c.yellow, gui = "bold" }, --   any other keyword
+        Exception      { fg = c.yellow, gui = "bold" }, --   try, catch, throw
 
-        PreProc        { fg = jbn.ship_cove }, -- (*) Generic Preprocessor
-        -- Include        { }, --   Preprocessor #include
-        Define         { fg = jbn.ship_cove, gui = "bold" }, --   Preprocessor #define
-        Macro          { Define }, --   Same as Define
-        PreCondit      { Define }, --   Preprocessor #if, #else, #endif, etc.
+        PreProc        { fg = grb.quartz }, -- (*) Generic Preprocessor
+        Include        { fg = grb.quartz }, --   Preprocessor #include
+        Define         { fg = c.orangey_red }, --   Preprocessor #define
+        Macro          { fg = c.orangey_red }, --   Same as Define
+        PreCondit      { fg = c.orangey_red }, --   Preprocessor #if, #else, #endif, etc.
 
-        Type           { fg = pa.quartz }, -- (*) int, long, char, etc.
-        StorageClass   { fg = pa.orangey_red }, --   static, register, volatile, etc.
+        Type           { fg = grb.quartz }, -- (*) int, long, char, etc.
+        StorageClass   { fg = c.yellow, gui = "bold" }, --   static, register, volatile, etc.
         Structure      { StorageClass }, --   struct, union, enum, etc.
-        -- Typedef        { }, --   A typedef
+        Typedef        { fg = c.yellow, gui = "bold" }, --   A typedef
 
-        Special        { fg = jbn.koromiko }, -- (*) Any special symbol
+        Special        { fg = grb.yellow }, -- (*) Any special symbol
         -- SpecialChar    { }, --   Special character in a constant
-        -- Tag            { }, --   You can use CTRL-] on this
-        Delimiter      { bg = jbn.hoki }, --   Character that needs attention
-        -- SpecialComment { }, --   Special things inside a comment (e.g. '\n')
-        -- Debug          { }, --   Debugging statements
+        Tag            { fg = grb.wisteria, gui = "bold" }, --   You can use CTRL-] on this
+        Delimiter      { fg = jbn.hoki }, --   Character that needs attention
+        SpecialComment { fg = grb.wisteria, gui = "bold" }, --   Special things inside a comment (e.g. '\n')
+        Debug          { fg = c.orange, gui = "bold" }, --   Debugging statements
 
         -- Underlined     { gui = "underline" }, -- Text that stands out, HTML links
         -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
 
-        Error          { bg = pa.mit_red }, -- Any erroneous construct
-        Todo           { bg = pa.blue_moon, fg = pa.black }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+        Error          { bg = c.mit_red }, -- Any erroneous construct
+        Todo           { bg = c.pearl, fg = c.black, gui = "bold" }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+
+
 
         -- These groups are for the native LSP client and diagnostic system. Some
         -- other LSP clients may use these groups, or use their own. Consult your
@@ -354,6 +380,8 @@ local theme = lush(function(injected_functions)
         -- DiagnosticSignHint         { } , -- Used for "Hint" signs in sign column.
         -- DiagnosticSignOk           { } , -- Used for "Ok" signs in sign column.
 
+
+
         -- Tree-Sitter syntax groups.
         --
         -- See :h treesitter-highlight-groups, some groups may not be listed,
@@ -371,9 +399,9 @@ local theme = lush(function(injected_functions)
         --
         -- For more information see https://github.com/rktjmp/lush.nvim/issues/109
 
-        -- sym"@text.literal"      { }, -- Comment
+        sym"@text.literal"      { Comment }, -- Comment
         -- sym"@text.reference"    { }, -- Identifier
-        -- sym"@text.title"        { }, -- Title
+        sym"@text.title"        { Title }, -- Title
         -- sym"@text.uri"          { }, -- Underlined
         -- sym"@text.underline"    { }, -- Underlined
         -- sym"@text.todo"         { }, -- Todo
@@ -409,9 +437,9 @@ local theme = lush(function(injected_functions)
         -- sym"@variable"          { }, -- Identifier
         -- sym"@type"              { }, -- Type
         -- sym"@type.definition"   { }, -- Typedef
-        -- sym"@storageclass"      { }, -- StorageClass
+        sym"@storageclass"      { fg = c.orangey_red }, -- StorageClass
         -- sym"@structure"         { }, -- Structure
-        -- sym"@namespace"         { }, -- Identifier
+        sym"@namespace"         { fg = c.orangey_red }, -- Identifier
         -- sym"@include"           { }, -- Include
         -- sym"@preproc"           { }, -- PreProc
         -- sym"@debug"             { }, -- Debug
@@ -420,16 +448,56 @@ local theme = lush(function(injected_functions)
 
 
         -- Telescope
+        TelescopeNormal { Normal },
         TelescopeBorder { fg = jbn.ship_cove },
-        TelescopeSelection { fg = jbn.ship_cove.lighten(46), bg = jbn.ship_cove.darken(74) },
-        TelescopeMatching { Search },
-        TelescopeSelectionCaret { fg = jbn.koromiko },
-        TelescopePromptPrefix { fg = jbn.koromiko },
+        -- TelescopeSelection { bg = c.deep_azure, fg = c.rice },
+        TelescopeSelection { bg = jbn.tundora, fg = c.rice },
+        TelescopeMatching { IncSearch },
+        TelescopeSelectionCaret { fg = c.rice },
+        TelescopePromptPrefix { fg = c.rice },
+        TelescopeTitle { fg = jbn.ship_cove },
+        TelescopeMultiSelection { fg = c.yellow },
+
 
         -- GitSigns
         GitSignsAdd { DiffAdd },
         GitSignsChange { DiffChange },
         GitSignsDelete { DiffDelete },
+
+
+        -- Cmp-nvim
+        CmpItemKing { fg = c.rice },
+        CmpItemMenu { fg = c.rice },
+        CmpItemAbbrDeprecated { fg = grb.niagara.da(20) },
+        CmpItemAbbr { fg = c.rice },
+        CmpItemAbbrMatch { fg = c.yellow, gui = "bold" },
+        CmpAbbrMathFuzzy { fg = c.yellow },
+
+        CmpItemKindText { fg = c.rice },
+        CmpItemKindMethod { Function },
+        CmpItemKindFunction { Function },
+        CmpItemKindConstructor { Function },
+        CmpItemKindField { fg = grb.niagara },
+        CmpItemKindVariable { fg = c.rice }, -- XXX
+        CmpItemKindClass { fg = jbn.koromiko.da(20) },
+        CmpItemKindInterface { Type },
+        CmpItemKindModule { Define },
+        CmpItemKindProperty { fg = grb.niagara.da(20) },
+        CmpItemKindUnit { fg = grb.niagara.da(20) },
+        CmpItemKindValue { fg = grb.quartz },
+        CmpItemKindEnum { fg = jbn.koromiko.da(20) },
+        CmpItemKindKeyword { Keyword },
+        CmpItemKindSnippet { fg = grb.niagara },
+        CmpItemKindColor { fg = c.yellow },
+        CmpItemKindFile { Directory },
+        CmpItemKindFolder { Directory },
+        CmpItemKindReference { fg = grb.wisteria },
+        CmpItemKindEnumMember { Type },
+        CmpItemKindConstant { fg = jbn.raw_sienna },
+        CmpItemKindStruct { fg = jbn.koromiko.da(20) },
+        CmpItemKindEvent { fg = grb.brown },
+        CmpItemKindOperator { Operator },
+        CmpItemKindTypeParametr { Identifier },
     }
 end)
 
