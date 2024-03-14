@@ -112,25 +112,14 @@ local jbn = { -- jellybeans palette
 
 local grb = { -- gruber-darker palette
     fg = hsl("#e4e4e4"),
-    ["fg+1"] = hsl("#f4f4ff"),
-    ["fg+2"] = hsl("#f5f5f5"),
     white = hsl("#ffffff"),
     black = hsl("#000000"),
-    ["bg-1"] = hsl("#101010"),
     bg = hsl("#000000"),
-    ["bg+1"] = hsl("#282828"),
-    ["bg+2"] = hsl("#453d41"),
-    ["bg+3"] = hsl("#484848"),
-    ["bg+4"] = hsl("#52494e"),
-    ["red-1"] = hsl("#c73c3f"),
     red = hsl("#f43841"),
-    ["red+1"] = hsl("#ff4f58"),
     green = hsl("#73d936"),
     yellow = hsl("#ffdd33"),
     brown = hsl("#cc8c3c"),
     quartz = hsl("#95a99f"),
-    ["niagara-2"] = hsl("#303540"),
-    ["niagara-1"] = hsl("#565f73"),
     niagara = hsl("#96a6c8"),
     wisteria = hsl("#9e95c7"),
     orange = hsl("#b57247"),
@@ -156,7 +145,7 @@ local theme = lush(function(injected_functions)
         --
         -- See :h highlight-groups
 
-        Normal         { bg = base.background, fg = c.rice }, -- Normal text
+        Normal         { fg = c.rice }, -- Normal text
         NormalNC       { fg = c.rice }, -- normal text in non-current windows
         Comment        { fg = c.grey }, -- Any comment
         NonText        { Comment }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
@@ -169,7 +158,7 @@ local theme = lush(function(injected_functions)
 
 
 
-        Directory      { fg = c.blue_moon, gui = "bold" }, -- Directory names (and other special names in listings)
+        Directory      { fg = c.blue_moon.li(10), gui = "bold" }, -- Directory names (and other special names in listings)
         Conceal        { fg = c.yellow }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
         EndOfBuffer    { fg = jbn.gravel }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
         VertSplit      { fg = jbn.gravel }, -- Column separating vertically split windows
@@ -189,12 +178,12 @@ local theme = lush(function(injected_functions)
         -- TermCursorNC   { }, -- Cursor in an unfocused terminal
 
         CursorColumn   { ColorColumn }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-        CursorLine     { ColorColumn }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
+        CursorLine     { }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
 
         LineNr         { fg = c.grey.da(10) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-        -- LineNrAbove    { }, -- Line number for when the 'relativenumber' option is set, above the cursor line
-        -- LineNrBelow    { }, -- Line number for when the 'relativenumber' option is set, below the cursor line
-        CursorLineNr   { fg = c.pearl }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+        LineNrAbove    { fg = c.grey.da(10) }, -- Line number for when the 'relativenumber' option is set, above the cursor line
+        LineNrBelow    { fg = c.grey.da(10) }, -- Line number for when the 'relativenumber' option is set, below the cursor line
+        CursorLineNr   { fg = c.sky }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
 
 
 
@@ -209,8 +198,8 @@ local theme = lush(function(injected_functions)
 
 
 
-        -- Var. 1 (orange + navy)
-        Search         { bg = c.orange, fg = c.black }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
+        -- Var. 1 (navy + white)
+        Search         { bg = c.navy.li(12), fg = c.rice }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
         CurSearch      { bg = c.rice, fg = c.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
         IncSearch      { bg = c.navy.li(12), fg = c.rice }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
 
@@ -239,7 +228,8 @@ local theme = lush(function(injected_functions)
 
 
 
-        Title          { fg = c.hot_magenta, gui = "bold" }, -- Titles for output from ":set all", ":autocmd" etc.
+        -- Title          { fg = c.hot_magenta, gui = "bold" }, -- Titles for output from ":set all", ":autocmd" etc.
+        Title          { fg = c.sky, gui = "bold" }, -- Titles for output from ":set all", ":autocmd" etc.
         -- NormalFloat    { }, -- Normal text in floating windows.
         -- FloatBorder    { }, -- Border of floating windows.
         -- FloatTitle     { }, -- Title of floating windows.
@@ -438,7 +428,7 @@ local theme = lush(function(injected_functions)
         -- sym"@type"              { }, -- Type
         -- sym"@type.definition"   { }, -- Typedef
         sym"@storageclass"      { fg = c.orangey_red }, -- StorageClass
-        -- sym"@structure"         { }, -- Structure
+        sym"@structure"         { fg = c.orangey_red }, -- Structure
         sym"@namespace"         { fg = c.orangey_red }, -- Identifier
         -- sym"@include"           { }, -- Include
         -- sym"@preproc"           { }, -- PreProc
