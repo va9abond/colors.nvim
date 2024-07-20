@@ -16,7 +16,6 @@
 -- TODO
 -- [ ] lsp
 -- [ ] treesitter
--- [ ] Diagnostic
 
 
 local lush = require('lush')
@@ -31,8 +30,8 @@ local c = { -- my own palette
     pearl = hsl(42,45,85),
     grey = hsl(0,0,50),
     charcoal_grey = hsl(190,5,25),
-
     black_pearl = hsl(201,19,15),
+    green_vda = hsl("#0e1d00"),
 
     sky = hsl(205,95,75),
     navy = hsl(220,97,12),
@@ -81,8 +80,6 @@ local jbn = {
     temptress = hsl("#40000a"),
 
     bayoux_blue = hsl("#556779"),
-    total_white = hsl("#ffffff"),
-    total_black = hsl("#000000"),
     cadet_blue = hsl("#b0b8c0"),
     perano = hsl("#b0d0f0"),
     wewak = hsl("#f0a0c0"),
@@ -136,7 +133,7 @@ local grb = { -- gruber-darker palette
 
 
 local base = {
-    bg = hsl(0,0,12)
+    bg = hsl(0,0,8) -- 0,0,12
 }
 
 
@@ -156,80 +153,73 @@ local theme = lush(function(injected_functions)
         Normal         { fg = c.rice, bg = base.bg }, -- Normal text
         NormalNC       { fg = c.rice, bg = base.bg }, -- normal text in non-current windows
         Comment        { fg = c.grey }, -- Any comment
-        NonText        { fg = c.grey.da(20) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-        Whitespace     { fg = base.bg.li(17) }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
-        Visual         { bg = jbn.tundora.da(35) }, -- Visual mode selection
-        -- Visual         { bg = c.navy }, -- Visual mode selection
+        NonText        { fg = c.grey }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+        Whitespace     { fg = base.bg.li(15) }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+        Visual         { bg = jbn.tundora.da(20) }, -- Visual mode selection
         -- VisualNOS      { }, -- Visual mode selection when vim is "Not Owning the Selection".
 
-        -- ColorColumn    { bg = c.black_pearl }, -- Columns set with 'colorcolumn'
-        -- ColorColumn    { bg =  hsl(159, 92, 7) }, -- Columns set with 'colorcolumn'
-        ColorColumn    { bg =  hsl(159, 92, 8) }, -- Columns set with 'colorcolumn'
+        ColorColumn    { bg =  hsl(159, 92, 6) }, -- Columns set with 'colorcolumn'
 
 
 
-        Directory      { fg = c.blue_moon.li(10), gui = "bold" }, -- Directory names (and other special names in listings)
+        Directory      { fg = jbn.morning_glory, gui = "bold" }, -- Directory names (and other special names in listings)
         Conceal        { fg = c.yellow }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
         EndOfBuffer    { fg = jbn.gravel }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
         VertSplit      { fg = jbn.gravel }, -- Column separating vertically split windows
+
         -- WinBar         { }, -- Window bar of current window
         -- WinBarNC       { }, -- Window bar of not-current windows
         Winseparator   { fg = jbn.gravel }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
-        -- MatchParen     { bg = jbn.cocoa_brown, fg = jbn.wewak }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
-        MatchParen     { bg = c.charcoal_grey }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+
+        MatchParen     { bg = jbn.tundora }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
         WildMenu       { bg = jbn.cocoa_brown, fg = jbn.wewak }, -- Current match in 'wildmenu' completion
 
 
 
-        -- Cursor         { bg = base.bg, fg = jbn.perano }, -- Character under the cursor
         Cursor         { bg = c.rice, fg = c.black }, -- Character under the cursor
         lCursor        { Cursor }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
         CursorIM       { Cursor }, -- Like Cursor, but used when in IME mode |CursorIM|
         TermCursor     { bg = c.rice, fg = c.black }, -- Cursor in a focused terminal
-        TermCursorNC   { bg = c.grey.da(10), fg = c.black }, -- Cursor in an unfocused terminal
+        TermCursorNC   { bg = c.grey, fg = c.black }, -- Cursor in an unfocused terminal
 
-        CursorColumn   { ColorColumn }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-        CursorLine     { bg = base.bg }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
+        CursorColumn   { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
+        CursorLine     { }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
 
-        LineNr         { fg = c.grey.da(10) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-        LineNrAbove    { fg = c.grey.da(10) }, -- Line number for when the 'relativenumber' option is set, above the cursor line
-        LineNrBelow    { fg = c.grey.da(10) }, -- Line number for when the 'relativenumber' option is set, below the cursor line
-        CursorLineNr   { fg = c.sky }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+        LineNr         { fg = base.bg.li(30) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+        LineNrAbove    { fg = base.bg.li(30) }, -- Line number for when the 'relativenumber' option is set, above the cursor line
+        LineNrBelow    { fg = base.bg.li(30) }, -- Line number for when the 'relativenumber' option is set, below the cursor line
+        CursorLineNr   { fg = c.pearl }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
 
 
 
-        Folded         { bg = c.black_pearl, fg = jbn.grey.li(40) }, -- Line used for closed folds
+        Folded         { bg = c.black_pearl, fg = c.grey }, -- Line used for closed folds
 
-        -- FoldColumn     { bg = base.background, fg =  jbn.morning_glory }, -- 'foldcolumn'
         FoldColumn     { fg =  jbn.morning_glory }, -- 'foldcolumn'
-        -- SignColumn     { bg = base.background }, -- Column where |signs| are displayed
         SignColumn     { }, -- Column where |signs| are displayed
 
         -- CursorLineFold { }, -- Like FoldColumn when 'cursorline' is set for the cursor line
-        -- CursorLineSign { }, -- Like SignColumn when 'cursorline' is set for the cursor line
+        CursorLineSign { }, -- Like SignColumn when 'cursorline' is set for the cursor line
 
 
 
-        Search         { bg = c.navy.li(12), fg = c.rice }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
-        -- CurSearch      { bg = c.rice, fg = c.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
-        -- CurSearch      { bg = jbn.koromiko.da(35), fg = c.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
-        CurSearch      { bg = c.orange.da(10), fg = c.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
-        IncSearch      { bg = c.navy.li(12), fg = c.rice }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+        Search         { bg = c.deep_azure, fg = c.rice }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
+        CurSearch      { bg = jbn.cocoa_brown, fg = jbn.wewak }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
+        IncSearch      { bg = c.deep_azure, fg = c.rice }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
 
-        Substitute     { bg = c.navy.li(12), fg = c.rice, gui = "bold" }, -- |:substitute| replacement text highlighting
+        Substitute     { bg = c.deep_azure, fg = c.rice, gui = "bold" }, -- |:substitute| replacement text highlighting
 
 
 
         DiffAdd        { fg = c.green }, -- Diff mode: Added line |diff.txt|
         DiffChange     { fg = c.orange }, -- Diff mode: Changed line |diff.txt|
         DiffDelete     { fg = c.red }, -- Diff mode: Deleted line |diff.txt|
-        DiffText       { bg = c.deep_azure.li(2), fg = c.rice }, -- Diff mode: Changed text within a changed line |diff.txt|
+        DiffText       { fg = jbn.perano }, -- Diff mode: Changed text within a changed line |diff.txt|
 
         diffAdded      { DiffAdd },
         diffRemoved    { DiffDelete },
         diffChanged    { DiffChange },
 
-        ErrorMsg       { bg = c.mit_red, fg = c.rice }, -- Error messages on the command line
+        ErrorMsg       { bg = jbn.temptress, fg = c.rice }, -- Error messages on the command line
 
 
 
@@ -237,34 +227,38 @@ local theme = lush(function(injected_functions)
         MsgArea        { fg = c.pearl }, -- Area for messages and cmdline
         -- MsgSeparator   { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
         MoreMsg        { fg = jbn.mantis }, -- |more-prompt|
-        WarningMsg     {}, -- Warning messages
+        WarningMsg     { bg = c.dired_blood, fg = c.rice }, -- Warning messages
+
+        StatusLine     { bg = base.bg.li(4), fg = c.pearl }, -- Status line of current window
+        StatusLineNC   { bg = base.bg, fg = c.pearl }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
 
 
+        Title          { fg = c.sky, gui = "bold" }, -- Titles for output from ":set all", ":autocmd" etc.
 
-        Title          { fg = c.sky, bg = NormalFloat.bg, gui = "bold" }, -- Titles for output from ":set all", ":autocmd" etc.
-        -- NormalFloat    { fb = c.rice, bg = base.bg.li(10) }, -- Normal text in floating windows.
-        -- FloatBorder    { }, -- Border of floating windows.
-        FloatTitle     { fg = c.sky, gui = "bold" }, -- Title of floating windows.
+        NormalFloat    { bg = base.bg.li(4), fg = c.rice }, -- Normal text in floating windows.
+        FloatBorder    { fg = jbn.perano }, -- Border of floating windows.
+        FloatTitle     { fg = jbn.perano, gui = "bold" }, -- Title of floating windows.
 
 
 
         -- TODO: I think i wont a nice green Pmenu
-        Pmenu          { bg = base.bg.li(12), fg = c.rice }, -- Popup menu: Normal item.
-        -- PmenuSel       { bg = grb.quartz, fg = c.black }, -- Popup menu: Selected item.
-        PmenuSel       { bg = hsl(159, 92, 10), fg = c.rice }, -- Popup menu: Selected item.
-        PmenuKind      { bg = base.bg.li(12), fg = c.rice }, -- Popup menu: Normal item "kind"
-        PmenuKindSel   { bg = base.bg.li(12), fg = jbn.koromiko }, -- Popup menu: Selected item "kind"
-        PmenuExtra     { bg = base.bg.li(12), fg = grb.wisteria }, -- Popup menu: Normal item "extra text"
-        PmenuExtraSel  { bg = base.bg.li(12), fg = grb.wisteria }, -- Popup menu: Selected item "extra text"
+        Pmenu          { bg = base.bg.li(4), fg = c.rice }, -- Popup menu: Normal item.
+        PmenuSel       { bg = c.green_vda, fg = c.rice }, -- Popup menu: Selected item.
 
-        PmenuSbar      { bg = c.charcoal_grey.da(40), fg = c.rice }, -- Popup menu: Scrollbar.
-        PmenuThumb     { bg = c.charcoal_grey.li(5) }, -- Popup menu: Thumb of the scrollbar.
+        PmenuKind      { bg = base.bg.li(4), fg = c.rice }, -- Popup menu: Normal item "kind"
+        PmenuKindSel   { bg = base.bg.li(4), fg = jbn.koromiko }, -- Popup menu: Selected item "kind"
+
+        PmenuExtra     { bg = base.bg.li(4), fg = grb.wisteria }, -- Popup menu: Normal item "extra text"
+        PmenuExtraSel  { bg = base.bg.li(4), fg = grb.wisteria }, -- Popup menu: Selected item "extra text"
+
+        PmenuSbar      { bg = base.bg.li(8), fg = c.rice }, -- Popup menu: Scrollbar.
+        PmenuThumb     { bg = c.charcoal_grey }, -- Popup menu: Thumb of the scrollbar.
 
 
 
+        SpecialKey     { bg = jbn.grey_one, fg = jbn.tea_green, gui = "underline" }, -- Unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. |hl-Whitespace|
         Question       { fg = jbn.mantis }, -- |hit-enter| prompt and yes/no questions
-        QuickFixLine   { bg = jbn.bright_grey }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
-        SpecialKey     { bg = jbn.grey_one, fg = jbn.tundora }, -- Unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. |hl-Whitespace|
+        QuickFixLine   { bg = jbn.cocoa_brown, fg = jbn.raw_sienna }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
 
 
 
@@ -272,11 +266,6 @@ local theme = lush(function(injected_functions)
         SpellCap       { bg = jbn.dark_blue, fg = c.rice }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
         SpellLocal     { bg = jbn.casal, fg = c.rice }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
         SpellRare      { bg = jbn.ripe_plum, fg = c.rice }, -- Word that is recognized by the spellchecker as one that is hardly ever used. |spell| Combined with the highlighting used otherwise.
-
-
-
-        StatusLine     { bg = jbn.grey_one, fg = c.pearl }, -- Status line of current window
-        StatusLineNC   { bg = base.bg, fg = c.pearl }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
 
 
 
@@ -319,9 +308,6 @@ local theme = lush(function(injected_functions)
         Define         { fg = grb.quartz }, --   Preprocessor #define
         Macro          { fg = c.orangey_red }, --   Same as Define
         PreCondit      { fg = c.orangey_red }, --   Preprocessor #if, #else, #endif, etc.
-        -- Define         { fg = c.orangey_red }, --   Preprocessor #define
-        -- Macro          { fg = c.orangey_red }, --   Same as Define
-        -- PreCondit      { fg = c.orangey_red }, --   Preprocessor #if, #else, #endif, etc.
         cDefine { Include  },
 
         Type           { fg = grb.quartz }, -- (*) int, long, char, etc.
@@ -339,7 +325,7 @@ local theme = lush(function(injected_functions)
         -- Underlined     { gui = "underline" }, -- Text that stands out, HTML links
         -- Ignore         { }, -- Left blank, hidden |hl-Ignore| (NOTE: May be invisible here in template)
 
-        Error          { bg = c.mit_red }, -- Any erroneous construct
+        Error          { bg = c.blood, fg = c.rice }, -- Any erroneous construct
         Todo           { bg = c.pearl, fg = c.black, gui = "bold" }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
 
@@ -359,11 +345,11 @@ local theme = lush(function(injected_functions)
 
         -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
         --
-        -- DiagnosticError            { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-        -- DiagnosticWarn             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-        -- DiagnosticInfo             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-        -- DiagnosticHint             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-        -- DiagnosticOk               { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+        DiagnosticError            { fg = c.red } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+        DiagnosticWarn             { fg = c.orange } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+        DiagnosticInfo             { fg = c.pearl } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+        DiagnosticHint             { fg = c.blue_moon } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+        DiagnosticOk               { fg = c.green } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
         -- DiagnosticVirtualTextError { } , -- Used for "Error" diagnostic virtual text.
         -- DiagnosticVirtualTextWarn  { } , -- Used for "Warn" diagnostic virtual text.
         -- DiagnosticVirtualTextInfo  { } , -- Used for "Info" diagnostic virtual text.
@@ -454,14 +440,18 @@ local theme = lush(function(injected_functions)
 
         -- Telescope
         TelescopeNormal { Normal },
-        TelescopeBorder { fg = jbn.ship_cove },
-        -- TelescopeSelection { bg = c.deep_azure, fg = c.rice },
-        TelescopeSelection { bg = jbn.tundora.da(30), fg = c.rice },
-        TelescopeMatching { IncSearch },
-        TelescopeSelectionCaret { fg = c.rice },
-        TelescopePromptPrefix { fg = c.rice },
         TelescopeTitle { fg = jbn.ship_cove },
+        TelescopeBorder{ fg = jbn.ship_cove },
+
+        TelescopeSelection{ fg = jbn.ship_cove.lighten(46), bg = jbn.ship_cove.darken(74) },
+        TelescopeMatching{ Search },
+
+        TelescopeSelectionCaret{ fg = jbn.koromiko },
+        TelescopePromptPrefix{ fg = jbn.koromiko },
+
         TelescopeMultiSelection { fg = c.yellow },
+
+
 
 
         -- GitSigns
