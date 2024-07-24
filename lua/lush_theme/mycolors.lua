@@ -465,8 +465,10 @@ local theme = lush(function(injected_functions)
         CmpItemMenu { fg = c.rice },
         CmpItemAbbrDeprecated { fg = grb.niagara.da(20) },
         CmpItemAbbr { fg = c.rice },
-        CmpItemAbbrMatch { fg = c.yellow, gui = "bold" },
-        CmpAbbrMathFuzzy { fg = c.yellow },
+        -- CmpItemAbbrMatch { fg = c.yellow, gui = "bold" },
+        -- CmpAbbrMathFuzzy { fg = c.yellow },
+        CmpItemAbbrMatch { fg = jbn.morning_glory, gui = "bold" },
+        CmpAbbrMathFuzzy { fg = jbn.morning_glory },
 
         CmpItemKindText { fg = c.rice },
         CmpItemKindMethod { Function },
