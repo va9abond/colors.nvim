@@ -107,28 +107,28 @@ local jbn = {
 
 
 local grb = { -- gruber-darker palette
-	fg = hsl("#e4e4e4"),
-	fg_li1 = hsl("#f4f4ff"),
-	fg_li2 = hsl("#f5f5f5"),
-	white = hsl("#ffffff"),
-	black = hsl("#000000"),
-	bg_da1 = hsl("#101010"),
-	bg = hsl("#181818"),
-	bg_li1 = hsl("#282828"),
-	bg_li2 = hsl("#453d41"),
-	bg_li3 = hsl("#484848"),
-	bg_li4 = hsl("#52494e"),
-	red_da1 = hsl("#c73c3f"),
-	red = hsl("#f43841"),
-	red_li1 = hsl("#ff4f58"),
-	green = hsl("#73d936"),
-	yellow = hsl("#ffdd33"),
-	brown = hsl("#cc8c3c"),
-	quartz = hsl("#95a99f"),
-	niagara_da2 = hsl("#303540"),
-	niagara_da1 = hsl("#565f73"),
-	niagara = hsl("#96a6c8"),
-	wisteria = hsl("#9e95c7"),
+    fg = hsl("#e4e4e4"),
+    fg_li1 = hsl("#f4f4ff"),
+    fg_li2 = hsl("#f5f5f5"),
+    white = hsl("#ffffff"),
+    black = hsl("#000000"),
+    bg_da1 = hsl("#101010"),
+    bg = hsl("#181818"),
+    bg_li1 = hsl("#282828"),
+    bg_li2 = hsl("#453d41"),
+    bg_li3 = hsl("#484848"),
+    bg_li4 = hsl("#52494e"),
+    red_da1 = hsl("#c73c3f"),
+    red = hsl("#f43841"),
+    red_li1 = hsl("#ff4f58"),
+    green = hsl("#73d936"),
+    yellow = hsl("#ffdd33"),
+    brown = hsl("#cc8c3c"),
+    quartz = hsl("#95a99f"),
+    niagara_da2 = hsl("#303540"),
+    niagara_da1 = hsl("#565f73"),
+    niagara = hsl("#96a6c8"),
+    wisteria = hsl("#9e95c7"),
 }
 
 
@@ -172,7 +172,7 @@ local theme = lush(function(injected_functions)
         -- WinBarNC       { }, -- Window bar of not-current windows
         Winseparator   { fg = jbn.gravel }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
 
-        MatchParen     { bg = jbn.tundora }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+        MatchParen     { bg = grb.niagara_da1 }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
         WildMenu       { bg = jbn.cocoa_brown, fg = jbn.wewak }, -- Current match in 'wildmenu' completion
 
 
