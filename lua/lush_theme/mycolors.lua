@@ -133,7 +133,8 @@ local grb = { -- gruber-darker palette
 
 
 local base = {
-    bg = hsl(0,0,8) -- 0,0,12
+    bg = hsl(0,0,8), -- 0,0,12
+    li_bg = hsl(0,0,12),
 }
 
 
@@ -229,27 +230,27 @@ local theme = lush(function(injected_functions)
         MoreMsg        { fg = jbn.mantis }, -- |more-prompt|
         WarningMsg     { bg = c.dired_blood, fg = c.rice }, -- Warning messages
 
-        StatusLine     { bg = base.bg.li(4), fg = c.pearl }, -- Status line of current window
+        StatusLine     { bg = base.li_bg, fg = c.pearl }, -- Status line of current window
         StatusLineNC   { bg = base.bg, fg = c.pearl }, -- Status lines of not-current windows. Note: If this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
 
 
         Title          { fg = c.sky, gui = "bold" }, -- Titles for output from ":set all", ":autocmd" etc.
 
-        NormalFloat    { bg = base.bg.li(4), fg = c.rice }, -- Normal text in floating windows.
+        NormalFloat    { bg = base.li_bg, fg = c.rice }, -- Normal text in floating windows.
         FloatBorder    { fg = jbn.perano }, -- Border of floating windows.
         FloatTitle     { fg = jbn.perano, gui = "bold" }, -- Title of floating windows.
 
 
 
         -- TODO: I think i wont a nice green Pmenu
-        Pmenu          { bg = base.bg.li(4), fg = c.rice }, -- Popup menu: Normal item.
+        Pmenu          { bg = base.li_bg, fg = c.rice }, -- Popup menu: Normal item.
         PmenuSel       { bg = c.green_vda, fg = c.rice }, -- Popup menu: Selected item.
 
-        PmenuKind      { bg = base.bg.li(4), fg = c.rice }, -- Popup menu: Normal item "kind"
-        PmenuKindSel   { bg = base.bg.li(4), fg = jbn.koromiko }, -- Popup menu: Selected item "kind"
+        PmenuKind      { bg = base.li_bg, fg = c.rice }, -- Popup menu: Normal item "kind"
+        PmenuKindSel   { bg = base.li_bg, fg = jbn.koromiko }, -- Popup menu: Selected item "kind"
 
-        PmenuExtra     { bg = base.bg.li(4), fg = grb.wisteria }, -- Popup menu: Normal item "extra text"
-        PmenuExtraSel  { bg = base.bg.li(4), fg = grb.wisteria }, -- Popup menu: Selected item "extra text"
+        PmenuExtra     { bg = base.li_bg, fg = grb.wisteria }, -- Popup menu: Normal item "extra text"
+        PmenuExtraSel  { bg = base.li_bg, fg = grb.wisteria }, -- Popup menu: Selected item "extra text"
 
         PmenuSbar      { bg = base.bg.li(8), fg = c.rice }, -- Popup menu: Scrollbar.
         PmenuThumb     { bg = c.charcoal_grey }, -- Popup menu: Thumb of the scrollbar.
@@ -439,9 +440,11 @@ local theme = lush(function(injected_functions)
         sym"@lsp.type.class.markdown" { fg = jbn.raw_sienna },
 
         -- Telescope
-        TelescopeNormal { Normal },
-        TelescopeTitle { fg = jbn.ship_cove },
-        TelescopeBorder{ fg = jbn.ship_cove },
+        TelescopeNormal { fg = c.rice, bg = base.bg },
+        TelescopeTitle { fg = base.bg },
+        TelescopeBorder{ fg = base.bg },
+        -- TelescopeTitle { fg = jbn.ship_cove },
+        -- TelescopeBorder{ fg = jbn.ship_cove },
 
         TelescopeSelection{ fg = jbn.ship_cove.lighten(46), bg = jbn.ship_cove.darken(74) },
         TelescopeMatching{ Search },
