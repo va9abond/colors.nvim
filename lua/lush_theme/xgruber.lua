@@ -498,7 +498,8 @@ local theme = lush(function(injected_functions)
 
 
         -- Oil
-        OilDirHidden { fg = jbn.grey }
+        OilDirHidden  { fg = jbn.grey },
+        OilFileHidden { fg = jbn.grey },
     }
 end)
 
