@@ -146,7 +146,8 @@ local theme = lush(function(injected_functions)
 
         Normal         { fg = grb.fg, bg = grb.bg }, -- Normal text
         NormalNC       { Normal }, -- normal text in non-current windows
-        Comment        { fg = jbn.grey }, -- Any comment
+        Comment        { fg = grb.brown }, -- Any comment
+        -- Comment        { fg = jbn.grey }, -- Any comment
         Whitespace     { fg = grb.bg.li(15) }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
         Visual         { bg = jbn.tundora.da(20) }, -- Visual mode selection
         -- VisualNOS      { }, -- Visual mode selection when vim is "Not Owning the Selection".
@@ -179,9 +180,9 @@ local theme = lush(function(injected_functions)
         CursorColumn   { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
         CursorLine     { }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
 
-        LineNr         { fg = grb.bg.li(30) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-        LineNrAbove    { fg = grb.bg.li(30) }, -- Line number for when the 'relativenumber' option is set, above the cursor line
-        LineNrBelow    { fg = grb.bg.li(30) }, -- Line number for when the 'relativenumber' option is set, below the cursor line
+        LineNr         { fg = jbn.grey }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+        LineNrAbove    { fg = jbn.grey }, -- Line number for when the 'relativenumber' option is set, above the cursor line
+        LineNrBelow    { fg = jbn.grey }, -- Line number for when the 'relativenumber' option is set, below the cursor line
         CursorLineNr   { fg = grb.fg }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
 
 
@@ -493,6 +494,11 @@ local theme = lush(function(injected_functions)
 
         CmpItemKindReference { Tag },
         CmpItemKindEvent     { fg = grb.brown },
+
+
+
+        -- Oil
+        OilDirHidden { fg = jbn.grey }
     }
 end)
 
