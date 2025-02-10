@@ -106,20 +106,26 @@ local jbn = {
 
 
 local grb = { -- gruber-darker palette
-    fg = hsl("#e4e4e4"),
+    fg = hsl("#ffffff"),
+    -- fg = hsl(33,52,96), -- rice from c
+    -- fg = hsl("#e4e4e4"),
     fg_li1 = hsl("#f4f4ff"),
     fg_li2 = hsl("#f5f5f5"),
+
     white = hsl("#ffffff"),
     black = hsl("#000000"),
+
     bg_da1 = hsl("#101010"),
-    bg = hsl("#181818"),
-    bg_li1 = hsl("#282828"),
+    bg = hsl("#212121"),
+    bg_li1 = hsl("#313131"),
     bg_li2 = hsl("#453d41"),
     bg_li3 = hsl("#484848"),
     bg_li4 = hsl("#52494e"),
+
     red_da1 = hsl("#c73c3f"),
     red = hsl("#f43841"),
     red_li1 = hsl("#ff4f58"),
+
     green = hsl("#73d936"),
     yellow = hsl("#ffdd33"),
     brown = hsl("#cc8c3c"),
@@ -154,18 +160,18 @@ local theme = lush(function(injected_functions)
         -- ColorColumn    { bg =  jbn.tundora }, -- Columns set with 'colorcolumn'
         ColorColumn    { bg =  grb.bg_li1 }, -- Columns set with 'colorcolumn'
 
-        NonText        { fg = jbn.tundora }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-        EndOfBuffer    { fg = jbn.tundora }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
-        VertSplit      { fg = jbn.tundora }, -- Column separating vertically split windows
+        NonText        { fg = jbn.boulder }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+        EndOfBuffer    { fg = jbn.boulder }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
+        VertSplit      { fg = jbn.boulder }, -- Column separating vertically split windows
 
 
 
-        Directory      { fg = jbn.morning_glory, gui = "bold" }, -- Directory names (and other special names in listings)
+        Directory      { fg = c.sky, gui = "bold" }, -- Directory names (and other special names in listings)
         Conceal        { fg = jbn.brandy }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
 
         WinBar         { fg = jbn.grey }, -- Window bar of current window
         WinBarNC       { fg = jbn.tundora }, -- Window bar of not-current windows
-        Winseparator   { fg = jbn.grey.da(10) }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
+        Winseparator   { fg = jbn.grey }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
 
         MatchParen     { bg = jbn.calypso }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 
@@ -195,11 +201,12 @@ local theme = lush(function(injected_functions)
 
 
 
-        Search         { bg = c.deep_azure, fg = c.rice }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
-        CurSearch      { bg = c.pearl, fg = grb.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
-        IncSearch      { bg = c.deep_azure, fg = c.rice }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+        -- Search         { bg = c.sky, fg = grb.black }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
+        Search         { bg = c.deep_azure, fg = grb.fg }, -- Last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out.
+        CurSearch      { bg = c.sky, fg = grb.black }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
+        IncSearch      { bg = c.deep_azure, fg = grb.fg }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
 
-        Substitute     { bg = c.deep_azure, fg = c.rice }, -- |:substitute| replacement text highlighting
+        Substitute     { bg = c.deep_azure, fg = grb.fg }, -- |:substitute| replacement text highlighting
 
 
 
@@ -219,7 +226,7 @@ local theme = lush(function(injected_functions)
         -- MsgSeparator   { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
         MoreMsg        { fg = jbn.mantis }, -- |more-prompt|
         WarningMsg     { fg = jbn.koromiko }, -- Warning messages
-        ErrorMsg       { bg = jbn.temptress, fg = c.rice }, -- Error messages on the command line
+        ErrorMsg       { bg = jbn.temptress, fg = grb.fg }, -- Error messages on the command line
         -- Error          { bg = c.blood, fg = c.rice }, -- Any erroneous construct
 
         StatusLine     { bg = grb.bg_li1, fg = grb.fg }, -- Status line of current window
@@ -229,18 +236,19 @@ local theme = lush(function(injected_functions)
 
         Title          { fg = c.sky, gui = "bold" }, -- Titles for output from ":set all", ":autocmd" etc.
 
-        NormalFloat    { bg = grb.bg, fg = grb.fg }, -- Normal text in floating windows.
+        NormalFloat    { bg = grb.bg.li(7), fg = grb.fg }, -- Normal text in floating windows.
         FloatBorder    { Winseparator }, -- Border of floating windows.
         FloatTitle     { fg = jbn.perano, gui = "bold" }, -- Title of floating windows.
 
 
 
-        Pmenu          { bg = grb.bg_li1, fg = grb.fg }, -- Popup menu: Normal item.
-        PmenuSel       { bg = jbn.ship_cove.da(55), fg = grb.white }, -- Popup menu: Selected item.
-        -- PmenuSel       { bg = jbn.scorpion.da(10), fg = grb.white }, -- Popup menu: Selected item.
+        -- Pmenu          { bg = grb.bg_li1, fg = grb.fg }, -- Popup menu: Normal item.
+        Pmenu          { bg = grb.black, fg = grb.fg }, -- Popup menu: Normal item.
+        PmenuSel       { bg = jbn.tundora, fg = grb.white }, -- Popup menu: Selected item.
+        -- PmenuSel       { bg = jbn.casal, fg = grb.white }, -- Popup menu: Selected item.
 
-        PmenuKind      { bg = grb.bg_li1, fg = grb.white }, -- Popup menu: Normal item "kind"
-        PmenuKindSel   { fg = jbn.koromiko }, -- Popup menu: Selected item "kind"
+        PmenuKind      { Pmenu }, -- Popup menu: Normal item "kind"
+        PmenuKindSel   { PmenuSel }, -- Popup menu: Selected item "kind"
 
         PmenuExtra     { fg = grb.wisteria }, -- Popup menu: Normal item "extra text"
         PmenuExtraSel  { fg = grb.wisteria }, -- Popup menu: Selected item "extra text"
@@ -252,7 +260,7 @@ local theme = lush(function(injected_functions)
 
         SpecialKey     { bg = jbn.grey_one, fg = jbn.tea_green, gui = "underline" }, -- Unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. |hl-Whitespace|
         Question       { fg = jbn.mantis }, -- |hit-enter| prompt and yes/no questions
-        QuickFixLine   { fg = jbn.raw_sienna }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
+        QuickFixLine   { bg = jbn.cocoa_brown, fg = jbn.raw_sienna }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
 
 
 
@@ -263,7 +271,7 @@ local theme = lush(function(injected_functions)
 
 
 
-        TabLineSel     { bg = grb.black, fg = c.orange }, -- Tab pages line, active tab page label
+        TabLineSel     { bg = grb.black, fg = c.green }, -- Tab pages line, active tab page label
         TabLine        { bg = grb.black, fg = jbn.grey }, -- Tab pages line, not active tab page label
         TabLineFill    { bg = grb.black }, -- Tab pages line, where there are no labels
 
@@ -333,9 +341,46 @@ local theme = lush(function(injected_functions)
         -- LspReferenceText            { } , -- Used for highlighting "text" references
         -- LspReferenceRead            { } , -- Used for highlighting "read" references
         -- LspReferenceWrite           { } , -- Used for highlighting "write" references
+        -- LspInlayHint*
         -- LspCodeLens                 { } , -- Used to color the virtual text of the codelens. See |nvim_buf_set_extmark()|.
         -- LspCodeLensSeparator        { } , -- Used to color the seperator between two or more code lens.
         -- LspSignatureActiveParameter { } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
+
+
+        -- @lsp.type.class  { },      --  Identifiers that declare or reference a class type
+        -- @lsp.type.comment        Tokens that represent a comment
+        -- @lsp.type.decorator      Identifiers that declare or reference decorators and annotations
+        -- @lsp.type.enum           Identifiers that declare or reference an enumeration type
+        -- @lsp.type.enumMember     Identifiers that declare or reference an enumeration property, constant, or member
+        -- @lsp.type.event          Identifiers that declare an event property
+        -- @lsp.type.function       Identifiers that declare a function
+        -- @lsp.type.interface      Identifiers that declare or reference an interface type
+        -- @lsp.type.keyword        Tokens that represent a language keyword
+        -- @lsp.type.macro          Identifiers that declare a macro
+        -- @lsp.type.method         Identifiers that declare a member function or method
+        -- @lsp.type.modifier       Tokens that represent a modifier
+        -- @lsp.type.namespace      Identifiers that declare or reference a namespace, module, or package
+        -- @lsp.type.number         Tokens that represent a number literal
+        -- @lsp.type.operator       Tokens that represent an operator
+        -- @lsp.type.parameter      Identifiers that declare or reference a function or method parameters
+        -- @lsp.type.property       Identifiers that declare or reference a member property, member field, or member variable
+        -- @lsp.type.regexp         Tokens that represent a regular expression literal
+        -- @lsp.type.string         Tokens that represent a string literal
+        -- @lsp.type.struct         Identifiers that declare or reference a struct type
+        -- @lsp.type.type           Identifiers that declare or reference a type that is not covered above
+        -- @lsp.type.typeParameter  Identifiers that declare or reference a type parameter
+        -- @lsp.type.variable       Identifiers that declare or reference a local or global variable
+        --
+        -- @lsp.mod.abstract        Types and member functions that are abstract
+        -- @lsp.mod.async           Functions that are marked async
+        -- @lsp.mod.declaration     Declarations of symbols
+        -- @lsp.mod.defaultLibrary  Symbols that are part of the standard library
+        -- @lsp.mod.definition      Definitions of symbols, for example, in header files
+        -- @lsp.mod.deprecated      Symbols that should no longer be used
+        -- @lsp.mod.documentation   Occurrences of symbols in documentation
+        -- @lsp.mod.modification    Variable references where the variable is assigned to
+        -- @lsp.mod.readonly        Readonly variables and member fields (constants)
+        -- @lsp.mod.static          Class members (static members)
 
         -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
         --
@@ -440,12 +485,12 @@ local theme = lush(function(injected_functions)
         -- Telescope
         TelescopeNormal   { bg = grb.bg, fg = grb.fg },
         TelescopeTitle    { fg = grb.fg },
-        TelescopeBorder   { Winseparator  },
-        TelescopeMatching { CurSearch },
+        TelescopeBorder   { Winseparator },
+        TelescopeMatching { fg = jbn.morning_glory, gui = "bold" },
 
-        TelescopeSelectionCaret { fg = jbn.koromiko },
-        TelescopePromptPrefix   { fg = jbn.koromiko },
-        TelescopeMultiSelection { fg = jbn.wewak },
+        TelescopeSelectionCaret { fg = grb.white },
+        TelescopePromptPrefix   { fg = grb.wisteria },
+        TelescopeMultiSelection { fg = grb.yellow },
 
 
 
@@ -468,7 +513,7 @@ local theme = lush(function(injected_functions)
         CmpItemKindMethod       { fg = grb.wisteria },
         CmpItemKindFunction     { fg = grb.wisteria },
         CmpItemKindConstructor  { fg = grb.wisteria },
-        CmpItemKindField        { fg = grb.niagara.da(20) },
+        CmpItemKindField        { fg = grb.niagara },
         CmpItemKindVariable     { Identifier }, -- XXX
         CmpItemKindValue        { Number },
         CmpItemKindConstant     { Number },
@@ -500,6 +545,53 @@ local theme = lush(function(injected_functions)
         -- Oil
         OilDirHidden  { fg = jbn.grey },
         OilFileHidden { fg = jbn.grey },
+
+
+
+        -- Fugitive
+        fugitiveHeader      { fg = grb.quartz, gui = "bold" },
+        fugitiveHash        { fg = jbn.goldenrod },
+        fugitiveSymbolicRef { Tag },
+        fugitiveHeading     { fugitiveHeader },
+
+        -- compile-mode.nvim
+        CompileModeMessage          { Normal },
+        CompileModeMessageRow       { Number },
+        CompileModeMessageCol       { Number },
+
+        CompileModeError            { fg = c.red },
+        CompileModeWarning          { fg = c.orange },
+        CompileModeInfo             { fg = grb.quartz, gui = "underline"},
+        CompileModeCommandOutput    { fg = grb.yellow },
+        CompileModeDirectoryMessage { Directory },
+        CompileModeOutputFile       { Directory },
+        CompileModeCheckResult      { Macro },
+        CompileModeCheckTarget      { Tag },
+        CompileModeErrorLocus       { Visual },
+
+
+        -- blink.cmp
+        BlinkCmpMenu             { Pmenu }, -- The completion menu window
+        BlinkCmpMenuBorder       { Winseparator }, -- The completion menu window border
+        BlinkCmpLabelMatch       { fg = jbn.mantis, gui = "bold" }, -- (Currently unused) Label of the completion item when it matches the query
+        BlinkCmpKind             { fg = grb.quartz }, -- Kind icon/text of the completion item
+        BlinkCmpLabel            { Pmenu }, -- Label of the completion item
+        BlinkCmpMenuSelection    { PmenuSel }, -- The completion menu window selected item
+        BlinkCmpScrollBarThumb   { PmenuThumb }, -- The scrollbar thumb
+        BlinkCmpScrollBarGutter  { PmenuSbar }, -- The scrollbar gutter
+        BlinkCmpLabelDetail      { fg = jbn.hoki.sa(20) }, -- Label description of the completion item
+        BlinkCmpLabelDeprecated  { NonText, gui = "strikethrough" }, -- Deprecated label of the completion item
+        BlinkCmpLabelDescription { fg = jbn.hoki.sa(20) }, -- Label description of the completion item
+        BlinkCmpSource           { fg = jbn.grey }, -- Source of the completion item
+        BlinkCmpGhostText        { NonText }, -- Preview item with ghost text
+        BlinkCmpDoc              { NormalFloat }, -- The documentation window
+        BlinkCmpDocBorder        { Winseparator }, -- The documentation window border
+        BlinkCmpDocSeparator     { Winseparator }, -- The documentation separator between doc and detail
+        BlinkCmpDocCursorLine    { Visual }, -- The documentation window cursor line
+
+        BlinkCmpSignatureHelp                { NormalFloat }, -- The signature help window
+        BlinkCmpSignatureHelpBorder          { Winseparator }, -- The signature help window border
+        -- BlinkCmpSignatureHelpActiveParameter { LspSignatureActiveParameter }, -- Active parameter of the signature help
     }
 end)
 
