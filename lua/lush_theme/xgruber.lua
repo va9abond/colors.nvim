@@ -150,7 +150,8 @@ local theme = lush(function(injected_functions)
         --
         -- See :h highlight-groups
 
-        Normal         { fg = grb.fg, bg = grb.bg }, -- Normal text
+        -- Normal         { fg = grb.fg, bg = grb.bg }, -- Normal text
+        Normal         { fg = grb.fg }, -- Normal text
         NormalNC       { Normal }, -- normal text in non-current windows
         Comment        { fg = grb.brown }, -- Any comment
         -- Comment        { fg = jbn.grey }, -- Any comment
@@ -173,7 +174,9 @@ local theme = lush(function(injected_functions)
         WinBarNC       { fg = jbn.tundora }, -- Window bar of not-current windows
         Winseparator   { fg = jbn.grey }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
 
-        MatchParen     { bg = jbn.calypso }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+        -- MatchParen     { bg = jbn.calypso }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+        -- MatchParen     { bg = grb.niagara }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+        MatchParen     { bg = c.sky }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
 
 
 
@@ -242,10 +245,8 @@ local theme = lush(function(injected_functions)
 
 
 
-        -- Pmenu          { bg = grb.bg_li1, fg = grb.fg }, -- Popup menu: Normal item.
         Pmenu          { bg = grb.black, fg = grb.fg }, -- Popup menu: Normal item.
-        PmenuSel       { bg = jbn.tundora, fg = grb.white }, -- Popup menu: Selected item.
-        -- PmenuSel       { bg = jbn.casal, fg = grb.white }, -- Popup menu: Selected item.
+        PmenuSel       { bg = jbn.tundora }, -- Popup menu: Selected item.
 
         PmenuKind      { Pmenu }, -- Popup menu: Normal item "kind"
         PmenuKindSel   { PmenuSel }, -- Popup menu: Selected item "kind"
@@ -486,7 +487,7 @@ local theme = lush(function(injected_functions)
         TelescopeNormal   { bg = grb.bg, fg = grb.fg },
         TelescopeTitle    { fg = grb.fg },
         TelescopeBorder   { Winseparator },
-        TelescopeMatching { fg = jbn.morning_glory, gui = "bold" },
+        TelescopeMatching { fg = jbn.mantis, gui = "bold" },
 
         TelescopeSelectionCaret { fg = grb.white },
         TelescopePromptPrefix   { fg = grb.wisteria },
@@ -575,7 +576,7 @@ local theme = lush(function(injected_functions)
         BlinkCmpMenuBorder       { Winseparator }, -- The completion menu window border
         BlinkCmpLabelMatch       { fg = jbn.mantis, gui = "bold" }, -- (Currently unused) Label of the completion item when it matches the query
         BlinkCmpKind             { fg = grb.quartz }, -- Kind icon/text of the completion item
-        BlinkCmpLabel            { Pmenu }, -- Label of the completion item
+        BlinkCmpLabel            { }, -- Label of the completion item
         BlinkCmpMenuSelection    { PmenuSel }, -- The completion menu window selected item
         BlinkCmpScrollBarThumb   { PmenuThumb }, -- The scrollbar thumb
         BlinkCmpScrollBarGutter  { PmenuSbar }, -- The scrollbar gutter
@@ -587,7 +588,7 @@ local theme = lush(function(injected_functions)
         BlinkCmpDoc              { NormalFloat }, -- The documentation window
         BlinkCmpDocBorder        { Winseparator }, -- The documentation window border
         BlinkCmpDocSeparator     { Winseparator }, -- The documentation separator between doc and detail
-        BlinkCmpDocCursorLine    { Visual }, -- The documentation window cursor line
+        BlinkCmpDocCursorLine    { }, -- The documentation window cursor line
 
         BlinkCmpSignatureHelp                { NormalFloat }, -- The signature help window
         BlinkCmpSignatureHelpBorder          { Winseparator }, -- The signature help window border
